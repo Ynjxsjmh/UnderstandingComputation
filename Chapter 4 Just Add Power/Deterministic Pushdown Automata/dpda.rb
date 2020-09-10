@@ -12,4 +12,8 @@ class DPDA < Struct.new(:current_configuration, :accept_states, :rulebook)
       read_character(character)
     end
   end
+
+  def current_configuration
+    rulebook.follow_free_moves(super)
+  end
 end
