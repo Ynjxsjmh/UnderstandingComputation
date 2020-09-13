@@ -12,4 +12,14 @@ class NPDARulebook < Struct.new(:rules)
   def rules_for(configuration, character)
     rules.select{ |rule| rule.applies_to?(configuration, character) }
   end
+
+  def follow_free_moves(configurations)
+    more_configurations = next_configurations(configurations, nil)
+
+    if more_configurations.subset?(configurations)
+      configurations
+    else
+      follow_free_moves(configurations + more_configurations)
+    end
+  end
 end
