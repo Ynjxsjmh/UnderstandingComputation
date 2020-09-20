@@ -7,7 +7,11 @@ class DTM < Struct.new(:current_configuration, :accept_states, :rulebook)
     self.current_configuration = rulebook.next_configuration(current_configuration)
   end
 
+  def stuck?
+    !accepting? && !rulebook.applies_to?(current_configuration)
+  end
+
   def run
-    step until accepting?
+    step until accepting? || stuck?
   end
 end
